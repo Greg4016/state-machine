@@ -50,6 +50,10 @@ div.state.selected:after {
     cursor: move;
 }
 
+div.highlight {
+    background-color: aquamarine;
+}
+
 body.tool-move div.state, body.tool-link div.state {
     cursor: pointer;
 }

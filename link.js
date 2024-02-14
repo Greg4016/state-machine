@@ -1,7 +1,8 @@
 class Link {
 
     startState
-    endsState
+    endState
+    
     controlPoint1 = undefined
     controlPoint2 = undefined
 
@@ -9,10 +10,10 @@ class Link {
 
     constructor(state1, state2) {
         this.startState = state1
-        this.endsState = state2
+        this.endState = state2
 
         linkSvg.insertAdjacentHTML("beforeend", `
-            <line x1="${this.startState.getPos().x}" y1="${this.startState.getPos().y}" x2="${this.endsState.getPos().x}" y2="${this.endsState.getPos().y}" stroke="black"/>
+            <line x1="${this.startState.getPos().x}" y1="${this.startState.getPos().y}" x2="${this.endState.getPos().x}" y2="${this.endState.getPos().y}" stroke="black"/>
         `)
         this.dom = linkSvg.lastElementChild
 

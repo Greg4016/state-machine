@@ -1,4 +1,4 @@
-let paths = [
+/*let paths = [
     {
         el : null,
         hitbox : null,
@@ -125,4 +125,4 @@ window.addEventListener("click", e => {
     paths[0].coords.forEach(c => {
         c.el.setAttribute("visibility", "hidden")
     })
-})
+})*/

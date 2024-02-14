@@ -1,32 +1,35 @@
 class State {
 
-    #x = 0
-    #y = 0
-    dom
+    #pos = {"x" : 0, "y" : 0}
     name
+    dom
+
     #selected = false
+
     linkStarts = []
     linkEnds = []
 
     constructor(x, y, name) {
-        this.#x = x
-        this.#y = y
+        // Set position and name
+        this.#pos = {"x" : x, "y" : y}
         this.name = name
 
-        
+        // Create and store DOM element
         statesDiv.insertAdjacentHTML("beforeEnd", `
-            <div class="state" style="left: ${this.#x}px; top: ${this.#y}px"><span>S<sub>${this.name}</sub></span></div>
+            <div class="state" style="left: ${this.#pos.x}px; top: ${this.#pos.y}px"><span>S<sub>${this.name}</sub></span></div>
         `)
         this.dom = statesDiv.lastElementChild
 
     }
 
+    // 'selected' field getter, setter
     getSelected() {
         return this.#selected
     }
 
     setSelected(b) {
 
+        // Changes 'selected' field value if the value is different to param
         if(b && !this.selected) {
             this.selected = true
             this.dom.classList.add("selected")
@@ -37,16 +40,18 @@ class State {
 
     }
 
+    // 'pos' field getter, setter
     getPos() {
-        return {"x" : this.#x, "y" : this.#y}
+        return this.#pos
     }
 
     setPos(x, y) {
-        this.#x = x
-        this.#y = y
-        this.dom.style.left = this.#x + "px"
-        this.dom.style.top = this.#y + "px"
+        // Set variable and DOM property
+        this.#pos = {"x" : x, "y" : y}
+        this.dom.style.left = this.#pos.x + "px"
+        this.dom.style.top = this.#pos.y + "px"
 
+        // Call position update on connected links
         this.linkStarts.forEach(l => l.updatePos())
         this.linkEnds.forEach(l => l.updatePos())
     }

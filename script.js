@@ -27,16 +27,16 @@ document.querySelectorAll(".tool").forEach(tool => {
 
 
 // Click event handling
-let linkState1 = undefined
-let linkState2 = undefined
+let linkStart = undefined
+let linkEnd = undefined
 
 document.body.addEventListener("click", ev => {
 
-    // New state creation
+    // State
     if(activeTool == "state") {
         states.push(new State(ev.x, ev.y, nextState))
         nextState++
-    // Element moving    
+    // Move   
     } else if(activeTool == "move") {
         let targetIsState = ev.target.classList.value.includes("state")
 
@@ -47,19 +47,33 @@ document.body.addEventListener("click", ev => {
                 selectedState = s
             }
         })
-
+    // Link
     } else if(activeTool == "link") {
         let targetIsState = ev.target.classList.value.includes("state")
 
         if(targetIsState) {
-            if(!linkState1) linkState1 = states.find(s => s.dom == ev.target) 
-            else if(!linkState2) {
-                linkState2 = states.find(s => s.dom == ev.target)
-                if(!links.find(l => l.startState == linkState1 && l.endState == linkState2)) {
-                    links.push(new Link(linkState1, linkState2))
+            // Select link start state
+            if(!linkStart) {
+                linkStart = states.find(s => s.dom == ev.target)
+                linkStart.dom.classList.add("highlight")
+            }
+            else if(!linkEnd) {
+                // Select link end state
+                linkEnd = states.find(s => s.dom == ev.target)
+
+                // Check for matching existing link
+                if(!links.find(l => l.startState == linkStart && l.endState == linkEnd)) {
+                    // Create link
+                    links.push(new Link(linkStart, linkEnd))
+
+                    // Add link to states
+                    linkStart.linkStarts.push(links[links.length-1])
+                    linkEnd.linkEnds.push(links[links.length-1])
                 }
-                linkState1 = undefined
-                linkState2 = undefined
+                // Deselect states
+                linkStart.dom.classList.remove("link")
+                linkStart = undefined
+                linkEnd = undefined
             }
         }
     }
@@ -76,6 +90,7 @@ document.body.addEventListener("mousedown", ev => {
     if(activeTool =="move") {
         let targetIsSelected = ev.target.classList.value.includes("state") && ev.target.classList.value.includes("selected")
 
+        // Store cursor offset from selected state mid point
         if(targetIsSelected) {
             offset = {"x" : selectedState.getPos().x - ev.x,
                       "y" : selectedState.getPos().y - ev.y}
@@ -86,6 +101,8 @@ document.body.addEventListener("mousedown", ev => {
 // Drag mid
 document.body.addEventListener("mousemove", ev => {
     if(activeTool == "move") {
+
+        // If offset has been set, move state
         if(offset) {
             selectedState.setPos(ev.x + offset.x, ev.y + offset.y)
         }
@@ -94,5 +111,6 @@ document.body.addEventListener("mousemove", ev => {
 
 // Drag end
 document.body.addEventListener("mouseup", ev => {
+    // Unset offset
     offset = undefined
 })
