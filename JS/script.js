@@ -71,7 +71,7 @@ document.body.addEventListener("click", ev => {
                     linkEnd.linkEnds.push(links[links.length-1])
                 }
                 // Deselect states
-                linkStart.dom.classList.remove("link")
+                linkStart.dom.classList.remove("highlight")
                 linkStart = undefined
                 linkEnd = undefined
             }
