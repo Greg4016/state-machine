@@ -5,6 +5,8 @@ class State {
     dom
     name
     #selected = false
+    linkStarts = []
+    linkEnds = []
 
     constructor(x, y, name) {
         this.#x = x
@@ -40,11 +42,13 @@ class State {
     }
 
     setPos(x, y) {
-        console.log(x + y);
         this.#x = x
         this.#y = y
         this.dom.style.left = this.#x + "px"
         this.dom.style.top = this.#y + "px"
+
+        this.linkStarts.forEach(l => l.updatePos())
+        this.linkEnds.forEach(l => l.updatePos())
     }
 
 

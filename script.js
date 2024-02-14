@@ -1,4 +1,5 @@
 let states = []
+let links = []
 let nextState = 0
 let selectedState = undefined
 
@@ -15,6 +16,7 @@ document.querySelectorAll(".tool").forEach(tool => {
         activeTool = tool.id
         document.body.classList = "tool-" + activeTool
 
+        // Deselect states
         states.forEach(s => {
             s.setSelected(false)
         })
@@ -22,7 +24,12 @@ document.querySelectorAll(".tool").forEach(tool => {
     })
 });
 
+
+
 // Click event handling
+let linkState1 = undefined
+let linkState2 = undefined
+
 document.body.addEventListener("click", ev => {
 
     // New state creation
@@ -35,35 +42,57 @@ document.body.addEventListener("click", ev => {
 
         states.forEach(s => {
             s.setSelected(false)
-            if(targetIsState && s.dom == ev.target) s.setSelected(true)
+            if(targetIsState && s.dom == ev.target) {
+                s.setSelected(true)
+                selectedState = s
+            }
         })
 
+    } else if(activeTool == "link") {
+        let targetIsState = ev.target.classList.value.includes("state")
+
+        if(targetIsState) {
+            if(!linkState1) linkState1 = states.find(s => s.dom == ev.target) 
+            else if(!linkState2) {
+                linkState2 = states.find(s => s.dom == ev.target)
+                if(!links.find(l => l.startState == linkState1 && l.endState == linkState2)) {
+                    links.push(new Link(linkState1, linkState2))
+                }
+                linkState1 = undefined
+                linkState2 = undefined
+            }
+        }
     }
 })
 
-let offset = {"x" : 0, "y" : 0}
 
+
+// Drag handling
+let offset = undefined
+
+// Drag start
 document.body.addEventListener("mousedown", ev => {
     ev.preventDefault()
     if(activeTool =="move") {
         let targetIsSelected = ev.target.classList.value.includes("state") && ev.target.classList.value.includes("selected")
 
         if(targetIsSelected) {
-            selectedState = states.find(s => s.dom == ev.target)
-            offset.x = selectedState.getPos().x - ev.x
-            offset.y = selectedState.getPos().y - ev.y
+            offset = {"x" : selectedState.getPos().x - ev.x,
+                      "y" : selectedState.getPos().y - ev.y}
         }
     }
 })
 
+// Drag mid
 document.body.addEventListener("mousemove", ev => {
     if(activeTool == "move") {
-        if(selectedState) {
+        if(offset) {
             selectedState.setPos(ev.x + offset.x, ev.y + offset.y)
         }
     }
 })
 
+// Drag end
 document.body.addEventListener("mouseup", ev => {
-    selectedState = undefined
+    offset = undefined
 })
