@@ -1,0 +1,55 @@
+/*Line*/
+path {
+    stroke-width: 5px;
+    stroke: black;
+    fill: none;
+}
+
+path.hitbox {
+    stroke-width: 20px;
+    stroke: transparent;
+    fill: none;
+}
+
+/*Bezier control points*/
+circle.cpoint {
+    r: 10;
+    fill: white;
+    stroke: black;
+    stroke-width: 3px;
+}
+
+/*State*/
+div.state {
+    position: fixed;
+
+    background-color: white;
+    width: 4rem;
+    height: 4rem;
+    transform: translate(-50%, -50%);
+
+    border-radius: 100%;
+    border: 2px inset black;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+div.state * {
+    pointer-events: none;
+}
+
+div.state.selected:after {
+    content: "";
+    background-color: rgba(0, 169, 225, 0.152);
+    border: 2px solid rgb(0, 169, 225);
+    width: 4rem;
+    height: 4rem;
+    position: absolute;
+    cursor: move;
+}
+
+body.tool-move div.state, body.tool-link div.state {
+    cursor: pointer;
+}
