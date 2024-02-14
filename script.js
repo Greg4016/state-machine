@@ -22,12 +22,14 @@ document.querySelectorAll(".tool").forEach(tool => {
     })
 });
 
-
+// Click event handling
 document.body.addEventListener("click", ev => {
 
+    // New state creation
     if(activeTool == "state") {
         states.push(new State(ev.x, ev.y, nextState))
         nextState++
+    // Element moving    
     } else if(activeTool == "move") {
         let targetIsState = ev.target.classList.value.includes("state")
 
