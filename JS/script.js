@@ -26,6 +26,7 @@ document.querySelectorAll(".tool").forEach(tool => {
 
 
 
+
 // Click event handling
 let linkStart = undefined
 let linkEnd = undefined
@@ -78,6 +79,7 @@ document.body.addEventListener("click", ev => {
         }
     }
 })
+
 
 
 
