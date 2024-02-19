@@ -54,6 +54,21 @@ div.highlight {
     background-color: aquamarine;
 }
 
-body.tool-move div.state, body.tool-link div.state {
+body.tool-move div.state, body.tool-link div.state, body.tool-move line.hitbox {
     cursor: pointer;
+}
+
+/*Link*/
+line {
+    stroke-width: 2px;
+    stroke: black;
+}
+
+line.hitbox {
+    stroke-width: 20px;
+    stroke: transparent;
+}
+
+line.hitbox.selected {
+    stroke: rgba(0, 169, 225, 0.152);
 }

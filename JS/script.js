@@ -21,6 +21,11 @@ document.querySelectorAll(".tool").forEach(tool => {
             s.setSelected(false)
         })
         selectedState = undefined
+
+        // Deselect links
+        links.forEach(l => {
+            l.setSelected(false)
+        })
     })
 });
 
@@ -40,14 +45,28 @@ document.body.addEventListener("click", ev => {
     // Move   
     } else if(activeTool == "move") {
         let targetIsState = ev.target.classList.value.includes("state")
+        let targetIsLink = ev.target.classList.value.includes("hitbox")
+        hideInspector()
 
+        // Select and deselect states
         states.forEach(s => {
             s.setSelected(false)
             if(targetIsState && s.dom == ev.target) {
                 s.setSelected(true)
                 selectedState = s
+                setInspector(s)
             }
         })
+
+        links.forEach(l => {
+            l.setSelected(false)
+            if(targetIsLink && l.hitbox == ev.target) {
+                l.setSelected(true)
+                //selectedLink = l
+                setInspector(l)
+            }
+        })
+
     // Link
     } else if(activeTool == "link") {
         let targetIsState = ev.target.classList.value.includes("state")

@@ -12,6 +12,8 @@ svg {
     vertical-align: top;
 }
 
+
+
 /*Toolbar*/
 #toolbar {
     background-color: bisque;
@@ -29,6 +31,8 @@ svg {
     flex-direction: column;
 }
 
+
+
 /*Tool buttons*/
 .tool {
     background-color: bisque;
@@ -45,11 +49,34 @@ svg {
     pointer-events: none;
 }
 
-#test {
-    background-color: aliceblue;
-    width: 10rem;
-    height: 10rem;
-    position: fixed;
-    top: 0;
-    border-radius: 100%;
+
+
+/*Inspect Panel*/
+#inspect-panel {
+    width: 18rem;
+    height: 12rem;
+
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+
+    background-color: bisque;
+    margin: 1rem;
+}
+
+#inspected-name {
+    width: 18rem;
+    height: 3rem;
+
+    background-color: rgb(225, 198, 166);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: large;
+    font-family: sans-serif;
+    font-weight: 600;
+    color: white;
+    text-shadow: 0px 0px 1px gray;
 }
