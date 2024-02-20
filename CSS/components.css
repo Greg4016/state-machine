@@ -23,13 +23,14 @@ circle.cpoint {
 div.state {
     position: fixed;
 
-    background-color: white;
+    background-color: var(--sec-col);
     width: 4rem;
     height: 4rem;
     transform: translate(-50%, -50%);
 
     border-radius: 100%;
-    border: 2px inset black;
+    border: 2px solid white;
+    box-shadow: none;
 
     display: flex;
     justify-content: center;
@@ -61,7 +62,7 @@ body.tool-move div.state, body.tool-link div.state, body.tool-move line.hitbox {
 /*Link*/
 line {
     stroke-width: 2px;
-    stroke: black;
+    stroke: white;
 }
 
 line.hitbox {

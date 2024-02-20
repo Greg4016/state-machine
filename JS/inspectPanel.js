@@ -12,13 +12,13 @@ function setInspector(elem) {
     if(elem instanceof State) {
         inspectorPanel.style.display = 'block'
         inspectedType = 'state'
-        inspectedName = `State - S<sub>${elem.name}</sub>`
+        inspectedName = `State - ${elem.name}`
         inspectedNameDOM.innerHTML = inspectedName  
 
     }else if(elem instanceof Link) {
         inspectorPanel.style.display = 'block'
         inspectedType = 'link'
-        inspectedName = `Link - S<sub>${elem.startState.name}</sub>->S<sub>${elem.endState.name}</sub>`
+        inspectedName = `Link - ${elem.startState.name}->${elem.endState.name}`
         inspectedNameDOM.innerHTML = inspectedName 
     }
 }

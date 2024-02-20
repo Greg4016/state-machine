@@ -1,8 +1,15 @@
+:root {
+    --prim-col: rgb(41, 52, 69);
+    --sec-col: rgb(197, 234, 255);
+    --acc-col: aquamarine;
+    --bor-col: white;
+}
+
 body {
     width: 100vw;
     height: 100vh;
     margin: 0;
-    background-color: salmon;
+    background-color: var(--prim-col);
     position: relative;
 }
 
@@ -16,7 +23,7 @@ svg {
 
 /*Toolbar*/
 #toolbar {
-    background-color: bisque;
+    background-color: var(--sec-col);
     width: 4rem;
     height: calc(4rem * 5);
 
@@ -35,18 +42,24 @@ svg {
 
 /*Tool buttons*/
 .tool {
-    background-color: bisque;
     width: 4rem;
     height: 4rem;
-    outline: 2px solid gray;
+    
     border: none;
-    padding: 0;
+    outline: 2px solid var(--bor-col);
     margin: 0;
+    padding: 0;
+
+    background-color: var(--sec-col);
+
+    cursor: pointer;
 }
 
 .tool.active {
-    background-color: rgb(225, 198, 166);
     pointer-events: none;
+
+    background-color: var(--acc-col);
+    color: black;
 }
 
 
@@ -60,7 +73,7 @@ svg {
     bottom: 0px;
     right: 0px;
 
-    background-color: bisque;
+    background-color: var(--sec-col);
     margin: 1rem;
 }
 
@@ -68,7 +81,7 @@ svg {
     width: 18rem;
     height: 3rem;
 
-    background-color: rgb(225, 198, 166);
+    background-color: var(--acc-col);
 
     display: flex;
     justify-content: center;
@@ -76,7 +89,4 @@ svg {
 
     font-size: large;
     font-family: sans-serif;
-    font-weight: 600;
-    color: white;
-    text-shadow: 0px 0px 1px gray;
 }

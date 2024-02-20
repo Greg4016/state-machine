@@ -15,24 +15,27 @@ class Link {
         this.startState = state1
         this.endState = state2
 
+        // Create visible line element
         linkSvg.insertAdjacentHTML("beforeend", `
             <line x1="${this.startState.getPos().x}" y1="${this.startState.getPos().y}" x2="${this.endState.getPos().x}" y2="${this.endState.getPos().y}" class="link"/>
         `)
         this.dom = linkSvg.lastElementChild
 
+        // Create hitbox element
         linkSvg.insertAdjacentHTML("beforeend", `
             <line x1="${this.startState.getPos().x}" y1="${this.startState.getPos().y}" x2="${this.endState.getPos().x}" y2="${this.endState.getPos().y}" class="hitbox"/>
         `)
         this.hitbox = linkSvg.lastElementChild
-
     }
 
     updatePos() {
+        // Set visible line position
         this.dom.setAttribute("x1", this.startState.getPos().x)
         this.dom.setAttribute("y1", this.startState.getPos().y)
         this.dom.setAttribute("x2", this.endState.getPos().x)
         this.dom.setAttribute("y2", this.endState.getPos().y)
 
+        // Set hitbox position
         this.hitbox.setAttribute("x1", this.startState.getPos().x)
         this.hitbox.setAttribute("y1", this.startState.getPos().y)
         this.hitbox.setAttribute("x2", this.endState.getPos().x)
