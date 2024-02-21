@@ -8,9 +8,13 @@
 body {
     width: 100vw;
     height: 100vh;
-    margin: 0;
-    background-color: var(--prim-col);
+
+    /*poistioning*/
     position: relative;
+    margin: 0;
+
+    /*color*/
+    background-color: var(--prim-col);
 }
 
 svg {
