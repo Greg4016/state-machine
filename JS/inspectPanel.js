@@ -8,17 +8,18 @@ function hideInspector() {
     inspectedType = undefined
 }
 
-function setInspector(elem) {
-    if(elem instanceof State) {
-        inspectorPanel.style.display = 'block'
-        inspectedType = 'state'
-        inspectedName = `State - ${elem.name}`
-        inspectedNameDOM.innerHTML = inspectedName  
+function setInspectorState(elem) {
+    
+    inspectorPanel.style.display = 'block'
+    inspectedType = 'state'
+    inspectedName = `State - ${elem.name}`
+    inspectedNameDOM.innerHTML = inspectedName  
 
-    }else if(elem instanceof Link) {
-        inspectorPanel.style.display = 'block'
-        inspectedType = 'link'
-        inspectedName = `Link - ${elem.startState.name}->${elem.endState.name}`
-        inspectedNameDOM.innerHTML = inspectedName 
-    }
+}
+
+function setInspectorLink(elem) {
+    inspectorPanel.style.display = 'block'
+    inspectedType = 'link'
+    inspectedName = `Link - ${elem.startState.name}->${elem.endState.name}`
+    inspectedNameDOM.innerHTML = inspectedName 
 }

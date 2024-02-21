@@ -1,9 +1,9 @@
 /*Line*/
-path {
+/*path {
     stroke-width: 5px;
     stroke: black;
     fill: none;
-}
+}*/
 
 path.hitbox {
     stroke-width: 20px;

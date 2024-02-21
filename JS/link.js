@@ -17,7 +17,7 @@ class Link {
 
         // Create visible line element
         linkSvg.insertAdjacentHTML("beforeend", `
-            <line x1="${this.startState.getPos().x}" y1="${this.startState.getPos().y}" x2="${this.endState.getPos().x}" y2="${this.endState.getPos().y}" class="link"/>
+            <line x1="${this.startState.getPos().x}" y1="${this.startState.getPos().y}" x2="${this.endState.getPos().x}" y2="${this.endState.getPos().y}" marker-end="url(#arrow)" class="link"/>
         `)
         this.dom = linkSvg.lastElementChild
 

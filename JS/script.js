@@ -30,19 +30,17 @@ document.querySelectorAll(".tool").forEach(tool => {
 });
 
 
-
-
 // Click event handling
 let linkStart = undefined
 let linkEnd = undefined
 
 document.body.addEventListener("click", ev => {
 
-    // State
+    // State tool - create new state
     if(activeTool == "state") {
         states.push(new State(ev.x, ev.y, nextState))
         nextState++
-    // Move   
+    // Move tool - select and move elements
     } else if(activeTool == "move") {
         let targetIsState = ev.target.classList.value.includes("state")
         let targetIsLink = ev.target.classList.value.includes("hitbox")
@@ -54,20 +52,20 @@ document.body.addEventListener("click", ev => {
             if(targetIsState && s.dom == ev.target) {
                 s.setSelected(true)
                 selectedState = s
-                setInspector(s)
+                setInspectorState(s)
             }
         })
 
+        // Select and deselect links
         links.forEach(l => {
             l.setSelected(false)
             if(targetIsLink && l.hitbox == ev.target) {
                 l.setSelected(true)
-                //selectedLink = l
-                setInspector(l)
+                setInspectorLink(l)
             }
         })
 
-    // Link
+    // Link tool - create new link
     } else if(activeTool == "link") {
         let targetIsState = ev.target.classList.value.includes("state")
 
