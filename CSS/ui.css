@@ -1,6 +1,7 @@
 :root {
     --prim-col: rgb(41, 52, 69);
     --sec-col: rgb(197, 234, 255);
+    --ter-col: rgb(177, 219, 243);
     --acc-col: aquamarine;
     --bor-col: white;
 }
@@ -23,6 +24,7 @@ svg {
 
 
 
+/*--------------------------------------------------------------*/
 /*Toolbar*/
 #toolbar {
     width: 4rem;
@@ -38,17 +40,17 @@ svg {
 }
 
 
-
 /*Tool buttons*/
 .tool {
     width: 4rem;
     height: 4rem;
     
+    margin: 0;
+    padding: 0;
+
     background-color: var(--sec-col);
     border: none;
     outline: 2px solid var(--bor-col);
-    margin: 0;
-    padding: 0;
 
     cursor: pointer;
 }
@@ -60,6 +62,7 @@ svg {
 
 
 
+/*--------------------------------------------------------------*/
 /*Inspect Panel*/
 #inspect-panel {
     width: 18rem;
@@ -68,9 +71,9 @@ svg {
     position: absolute;
     bottom: 0px;
     right: 0px;
+    margin: 1rem;
 
     background-color: var(--sec-col);
-    margin: 1rem;
     overflow: hidden;
 }
 
@@ -81,13 +84,86 @@ svg {
     background-color: var(--acc-col);
     font-size: large;
     font-family: sans-serif;
-    box-shadow: 0px 0px 5px gray;
+    box-shadow: 0px 0px 5px -2px gray;
 
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-#inspected-data #line-mode {
 
+
+/*--------------------------------------------------------------*/
+/*Inspect data*/
+
+/*Link mode*/
+#inspected-data #link-mode {
+    width: 10rem;
+    height: 2rem;
+    
+    position: relative;
+    margin: 1rem;
+
+    background-color: var(--ter-col);
+    border-radius: 5rem;
+    box-shadow: 0px 1px 2px -1px gray;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: row;
+}
+
+
+/*Link mode children*/
+#inspected-data #link-mode * {
+    width: 5rem;
+    height: 2rem;
+
+    z-index: 1;
+    
+    font-family: sans-serif;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/*Link mode selector*/
+#inspected-data #link-mode::before {
+    content: "";
+    width: 5rem;
+    height: 2rem;
+    
+    position: absolute;
+    border-radius: 5rem;
+    z-index: 0;
+    left: 0;
+    
+    background-color: var(--acc-col);
+}
+
+
+/*Link mode selector animation*/
+@keyframes line-path {
+    from {
+        left: 0;
+    }
+    to {
+        left: 5rem;
+    }
+}
+
+#link-mode.anim-for::before {
+    animation-name: line-path;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+    animation-direction: normal;
+}
+
+#link-mode.anim-rev::before {
+    animation-name: line-path;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+    animation-direction: reverse;
 }

@@ -19,15 +19,18 @@ circle.cpoint {
     stroke-width: 3px;
 }
 
+
+
+/*--------------------------------------------------------------*/
 /*State*/
 div.state {
-    position: fixed;
-
-    background-color: var(--sec-col);
     width: 4rem;
     height: 4rem;
+    
+    position: fixed;
     transform: translate(-50%, -50%);
-
+    
+    background-color: var(--sec-col);
     border-radius: 100%;
     border: 2px solid white;
     box-shadow: none;
@@ -41,24 +44,31 @@ div.state * {
     pointer-events: none;
 }
 
+
+/*State selected*/
 div.state.selected:after {
     content: "";
-    background-color: rgba(0, 169, 225, 0.152);
-    border: 2px solid rgb(0, 169, 225);
+    
     width: 4rem;
     height: 4rem;
+
     position: absolute;
+
+    background-color: rgba(0, 169, 225, 0.152);
+    border: 2px solid rgb(0, 169, 225);
+
     cursor: move;
 }
 
+
+/*State linking*/
 div.highlight {
-    background-color: aquamarine;
+    background-color: var(--acc-col);
 }
 
-body.tool-move div.state, body.tool-link div.state, body.tool-move line.hitbox {
-    cursor: pointer;
-}
 
+
+/*--------------------------------------------------------------*/
 /*Link*/
 line {
     stroke-width: 2px;
@@ -70,6 +80,16 @@ line.hitbox {
     stroke: transparent;
 }
 
+
+/*Link selected*/
 line.hitbox.selected {
     stroke: rgba(0, 169, 225, 0.152);
+}
+
+
+
+/*--------------------------------------------------------------*/
+/*Other*/
+body.tool-move div.state, body.tool-link div.state, body.tool-move line.hitbox {
+    cursor: pointer;
 }
