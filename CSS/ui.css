@@ -26,6 +26,7 @@ svg {
 
 /*--------------------------------------------------------------*/
 /*Toolbar*/
+
 #toolbar {
     width: 4rem;
     height: calc(4rem * 3);
@@ -64,6 +65,7 @@ svg {
 
 /*--------------------------------------------------------------*/
 /*Inspect Panel*/
+
 #inspect-panel {
     width: 18rem;
     height: 12rem;
@@ -96,6 +98,11 @@ svg {
 /*--------------------------------------------------------------*/
 /*Inspect data*/
 
+#inspected-data {
+    display: flex;
+    justify-content: center;
+}
+
 /*Link mode*/
 #inspected-data #link-mode {
     width: 10rem;
@@ -120,7 +127,7 @@ svg {
     height: 2rem;
 
     z-index: 1;
-    
+
     font-family: sans-serif;
     
     display: flex;
@@ -138,32 +145,55 @@ svg {
     position: absolute;
     border-radius: 5rem;
     z-index: 0;
-    left: 0;
     
     background-color: var(--acc-col);
 }
 
+#inspected-data #link-mode.line::before {
+    left: 0;
+}
+
+#inspected-data #link-mode.path::before {
+    left: 5rem;
+}
+
 
 /*Link mode selector animation*/
-@keyframes line-path {
-    from {
+@keyframes topath {
+    0% {
         left: 0;
     }
-    to {
+    100% {
         left: 5rem;
     }
 }
 
-#link-mode.anim-for::before {
-    animation-name: line-path;
-    animation-duration: 0.5s;
-    animation-fill-mode: forwards;
-    animation-direction: normal;
+@keyframes toline {
+    0% {
+        left: 5rem;
+    }
+    100% {
+        left: 0;
+    }
 }
 
-#link-mode.anim-rev::before {
-    animation-name: line-path;
+#link-mode.anim-topath::before {
+    animation-name: topath;
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
-    animation-direction: reverse;
+}
+
+#link-mode.anim-toline::before {
+    animation-name: toline;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+#link-mode > * {
+    cursor: pointer;
+}
+
+#link-mode .selected {
+    pointer-events: none;
+    cursor: default;
 }

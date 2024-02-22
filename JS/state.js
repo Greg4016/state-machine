@@ -6,8 +6,10 @@ class State {
 
     #selected = false
 
-    linkStarts = []
-    linkEnds = []
+    #links = {
+        starts : [],
+        ends : []
+    }
 
     constructor(x, y, name) {
         // Set position and name
@@ -22,7 +24,7 @@ class State {
 
     }
 
-    // 'selected' field getter, setter
+    // Selected field getter, setter
     getSelected() {
         return this.#selected
     }
@@ -40,7 +42,8 @@ class State {
 
     }
 
-    // 'pos' field getter, setter
+
+    // Position getter, setter
     getPos() {
         return this.#pos
     }
@@ -52,9 +55,18 @@ class State {
         this.dom.style.top = this.#pos.y + "px"
 
         // Call position update on connected links
-        this.linkStarts.forEach(l => l.updatePos())
-        this.linkEnds.forEach(l => l.updatePos())
+        this.#links.starts.forEach(l => l.updatePos())
+        this.#links.ends.forEach(l => l.updatePos())
     }
 
 
+    // Connected links getter, setter
+    getLinks() {
+        return this.#links
+    }
+
+    pushLink(where, link) {
+        if(where == 'start') this.#links.starts.push(link)
+        else if(where == 'end') this.#links.ends.push(link)
+    }
 }

@@ -3,13 +3,16 @@ class Link {
     startState
     endState
     
-    controlPoint1 = undefined
-    controlPoint2 = undefined
+    #selected = false
+    #mode = 'line'
 
     dom
     hitbox
 
-    #selected = false
+    controlPoint1 = undefined
+    controlPoint2 = undefined
+
+
 
     constructor(state1, state2) {
         this.startState = state1
@@ -26,8 +29,15 @@ class Link {
             <line x1="${this.startState.getPos().x}" y1="${this.startState.getPos().y}" x2="${this.endState.getPos().x}" y2="${this.endState.getPos().y}" class="hitbox"/>
         `)
         this.hitbox = linkSvg.lastElementChild
+
+
+        // Add link to states
+        this.startState.pushLink('start', this)
+        this.endState.pushLink('end', this)
     }
 
+
+    // Change position
     updatePos() {
         // Set visible line position
         this.dom.setAttribute("x1", this.startState.getPos().x)
@@ -42,6 +52,12 @@ class Link {
         this.hitbox.setAttribute("y2", this.endState.getPos().y)
     }
 
+
+    // Seleceted field getter, setter
+    getSelected() {
+        return this.#selected
+    }
+
     setSelected(b) {
 
         // Changes 'selected' field value if the value is different to param
@@ -53,5 +69,19 @@ class Link {
             this.hitbox.classList.remove("selected")
         }
 
+    }
+
+
+    // Mode getter, setter
+    getMode() {
+        return this.#mode
+    }
+
+    changeMode() {
+        if(this.#mode == 'line') {
+            this.#mode = 'path'
+        } else {
+            this.#mode = 'line'
+        }
     }
 }

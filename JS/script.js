@@ -2,7 +2,11 @@ let states = []
 let links = []
 let nextState = 0
 let selectedState = undefined
+let selectedLink = undefined
 
+
+
+//------------------------------------------------------------------------------//
 // Tool selection
 document.querySelectorAll(".tool").forEach(tool => {
     tool.addEventListener("click", ev => {
@@ -30,6 +34,8 @@ document.querySelectorAll(".tool").forEach(tool => {
 });
 
 
+
+//------------------------------------------------------------------------------//
 // Click event handling
 let linkStart = undefined
 let linkEnd = undefined
@@ -40,28 +46,35 @@ document.body.addEventListener("click", ev => {
     if(activeTool == "state") {
         states.push(new State(ev.x, ev.y, nextState))
         nextState++
+
     // Move tool - select and move elements
     } else if(activeTool == "move") {
+        InspectorPanel.hideInspector()
+
         let targetIsState = ev.target.classList.value.includes("state")
         let targetIsLink = ev.target.classList.value.includes("hitbox")
-        hideInspector()
 
         // Select and deselect states
         states.forEach(s => {
             s.setSelected(false)
+
             if(targetIsState && s.dom == ev.target) {
                 s.setSelected(true)
                 selectedState = s
-                setInspectorState(s)
+
+                InspectorPanel.inspectState(s)
             }
         })
 
         // Select and deselect links
         links.forEach(l => {
             l.setSelected(false)
+
             if(targetIsLink && l.hitbox == ev.target) {
                 l.setSelected(true)
-                setInspectorLink(l)
+                selectedLink = l
+
+                InspectorPanel.inspectLink(l)
             }
         })
 
@@ -83,10 +96,6 @@ document.body.addEventListener("click", ev => {
                 if(!links.find(l => l.startState == linkStart && l.endState == linkEnd)) {
                     // Create link
                     links.push(new Link(linkStart, linkEnd))
-
-                    // Add link to states
-                    linkStart.linkStarts.push(links[links.length-1])
-                    linkEnd.linkEnds.push(links[links.length-1])
                 }
                 // Deselect states
                 linkStart.dom.classList.remove("highlight")
@@ -99,7 +108,7 @@ document.body.addEventListener("click", ev => {
 
 
 
-
+//------------------------------------------------------------------------------//
 // Drag handling
 let offset = undefined
 
