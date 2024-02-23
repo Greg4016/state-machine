@@ -14,7 +14,7 @@ class State {
     constructor(x, y, name) {
         // Set position and name
         this.#pos = {"x" : x, "y" : y}
-        this.name = `S<sub>${name}</sub>`
+        this.name = name
 
         // Create and store DOM element
         statesDiv.insertAdjacentHTML("beforeEnd", `

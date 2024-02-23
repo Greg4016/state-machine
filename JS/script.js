@@ -44,7 +44,7 @@ document.body.addEventListener("click", ev => {
 
     // State tool - create new state
     if(activeTool == "state") {
-        states.push(new State(ev.x, ev.y, nextState))
+        states.push(new State(ev.x, ev.y, `S<sub>${nextState}</sub>`))
         nextState++
 
     // Move tool - select and move elements
@@ -142,3 +142,161 @@ document.body.addEventListener("mouseup", ev => {
     // Unset offset
     offset = undefined
 })
+
+
+
+//------------------------------------------------------------------------------//
+// Setup save and load
+
+
+// Save
+function saveToJSON() {
+    let data = {
+        states : [],
+        links : []
+    }
+
+    states.forEach(s => {
+        data.states.push({
+            x : s.getPos().x,
+            y : s.getPos().y,
+            name : s.name
+        })
+    })
+
+    links.forEach(l => {
+        data.links.push({
+            startInd : states.indexOf(l.startState),
+            endInd : states.indexOf(l.endState),
+            mode : l.getMode()
+        })
+    })
+
+    return data
+}
+
+
+// Load
+function loadFromJSON(data) {
+    states = []
+    links = []
+    nextState = 0
+    selectedState = undefined
+    selectedLink = undefined
+
+    let svgchildren = [...linkSvg.children]
+    svgchildren.forEach((el, i) => { if(i > 0) el.remove() })
+    statesDiv.innerHTML = ''
+
+
+
+    data.states.forEach(s => {
+        states.push(new State(s.x, s.y, s.name))
+        nextState++
+    })
+
+    data.links.forEach(l => {
+        links.push(new Link( states[l.startInd], states[l.endInd] ))
+        if(l.mode == 'path') links[links.length-1].changeMode()
+    })
+}
+
+
+
+//------------------------------------------------------------------------------//
+// Test setup
+testBuild1 = {
+    states : [
+        {
+            x : 200,
+            y : 200,
+            name : 'S<sub>0</sub>'
+        },
+        {
+            x : 300,
+            y : 400,
+            name : 'S<sub>1</sub>'
+        },
+        {
+            x : 400,
+            y : 300,
+            name : 'S<sub>2</sub>'
+        }
+    ],
+    links : [
+        {
+            startInd : 0,
+            endInd : 1,
+            mode : 'path'
+        },
+        {
+            startInd : 1,
+            endInd : 2
+        }
+    ]
+}
+
+testBuild2 = {
+    states : [
+        {
+            x : 600,
+            y : 400,
+            name : 'S<sub>0</sub>'
+        },
+        {
+            x : 300,
+            y : 400,
+            name : 'S<sub>1</sub>'
+        },
+        {
+            x : 400,
+            y : 300,
+            name : 'S<sub>2</sub>'
+        }
+    ],
+    links : [
+        {
+            startInd : 0,
+            endInd : 1,
+            mode : 'path'
+        },
+        {
+            startInd : 1,
+            endInd : 2
+        }
+    ]
+}
+
+testBuild3 = {
+    "states": [
+        {
+            "x": 600,
+            "y": 400,
+            "name": "S<sub>0</sub>"
+        },
+        {
+            "x": 300,
+            "y": 400,
+            "name": "S<sub>1</sub>"
+        },
+        {
+            "x": 443,
+            "y": 563,
+            "name": "S<sub>2</sub>"
+        }
+    ],
+    "links": [
+        {
+            "startInd": 0,
+            "endInd": 1,
+            "mode": "path"
+        },
+        {
+            "startInd": 1,
+            "endInd": 2,
+            "mode": "path"
+        }
+    ]
+}
+
+loadFromJSON(testBuild2)
