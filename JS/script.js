@@ -53,6 +53,7 @@ document.body.addEventListener("click", ev => {
 
         let targetIsState = ev.target.classList.value.includes("state")
         let targetIsLink = ev.target.classList.value.includes("hitbox")
+        let targetIsCpoint = ev.target.classList.value.includes("cpoint")
 
         // Select and deselect states
         states.forEach(s => {
@@ -70,11 +71,15 @@ document.body.addEventListener("click", ev => {
         links.forEach(l => {
             l.setSelected(false)
 
-            if(targetIsLink && l.hitbox == ev.target) {
+            if(targetIsLink && l.getHitbox() == ev.target) {
                 l.setSelected(true)
                 selectedLink = l
 
                 InspectorPanel.inspectLink(l)
+            } else if(targetIsCpoint) {
+                selectedLink.setSelected(true)
+
+                InspectorPanel.inspectLink(selectedLink)
             }
         })
 
@@ -93,7 +98,7 @@ document.body.addEventListener("click", ev => {
                 linkEnd = states.find(s => s.dom == ev.target)
 
                 // Check for matching existing link
-                if(!links.find(l => l.startState == linkStart && l.endState == linkEnd)) {
+                if(!links.find(l => l.getStartState() == linkStart && l.getEndState() == linkEnd)) {
                     // Create link
                     links.push(new Link(linkStart, linkEnd))
                 }
@@ -117,11 +122,22 @@ document.body.addEventListener("mousedown", ev => {
     ev.preventDefault()
     if(activeTool =="move") {
         let targetIsSelected = ev.target.classList.value.includes("state") && ev.target.classList.value.includes("selected")
+        let targetIsCpoint1  = ev.target.classList.value.includes("cpoint1")
+        let targetIsCpoint2  = ev.target.classList.value.includes("cpoint2")
 
-        // Store cursor offset from selected state mid point
+        // Store cursor offset from selected element mid point
         if(targetIsSelected) {
-            offset = {"x" : selectedState.getPos().x - ev.x,
-                      "y" : selectedState.getPos().y - ev.y}
+            offset = {elem : "state",
+                      x : selectedState.getPos().x - ev.x,
+                      y : selectedState.getPos().y - ev.y}
+        } else if(targetIsCpoint1) {
+            offset = {elem : "cpoint1",
+                x : selectedLink.getCpoint1().x - ev.x,
+                y : selectedLink.getCpoint1().y - ev.y}
+        } else if(targetIsCpoint2) {
+            offset = {elem : "cpoint2",
+                x : selectedLink.getCpoint2().x - ev.x,
+                y : selectedLink.getCpoint2().y - ev.y}
         }
     }
 })
@@ -132,7 +148,17 @@ document.body.addEventListener("mousemove", ev => {
 
         // If offset has been set, move state
         if(offset) {
-            selectedState.setPos(ev.x + offset.x, ev.y + offset.y)
+            switch(offset.elem) {
+                case 'state':
+                    selectedState.setPos(ev.x + offset.x, ev.y + offset.y)
+                    break
+                case 'cpoint1':
+                    selectedLink.setCpoint1Pos(ev.x + offset.x, ev.y + offset.y)
+                    break
+                case 'cpoint2':
+                    selectedLink.setCpoint2Pos(ev.x + offset.x, ev.y + offset.y)
+                    break
+            }
         }
     }
 })
@@ -156,6 +182,7 @@ function saveToJSON() {
         links : []
     }
 
+    // Save states
     states.forEach(s => {
         data.states.push({
             x : s.getPos().x,
@@ -164,10 +191,11 @@ function saveToJSON() {
         })
     })
 
+    // Save links
     links.forEach(l => {
         data.links.push({
-            startInd : states.indexOf(l.startState),
-            endInd : states.indexOf(l.endState),
+            startInd : states.indexOf(l.getStartState()),
+            endInd : states.indexOf(l.getEndState()),
             mode : l.getMode()
         })
     })
@@ -178,26 +206,30 @@ function saveToJSON() {
 
 // Load
 function loadFromJSON(data) {
+    // Set variables to default
     states = []
     links = []
     nextState = 0
     selectedState = undefined
     selectedLink = undefined
 
+    // Remove existing links and states
     let svgchildren = [...linkSvg.children]
     svgchildren.forEach((el, i) => { if(i > 0) el.remove() })
+
     statesDiv.innerHTML = ''
 
 
-
+    // Load states
     data.states.forEach(s => {
         states.push(new State(s.x, s.y, s.name))
         nextState++
     })
 
+    // Load links
     data.links.forEach(l => {
         links.push(new Link( states[l.startInd], states[l.endInd] ))
-        if(l.mode == 'path') links[links.length-1].changeMode()
+        if(l.mode == 'curve') links[links.length-1].changeMode()
     })
 }
 
@@ -227,7 +259,7 @@ testBuild1 = {
         {
             startInd : 0,
             endInd : 1,
-            mode : 'path'
+            mode : 'curve'
         },
         {
             startInd : 1,
@@ -258,7 +290,7 @@ testBuild2 = {
         {
             startInd : 0,
             endInd : 1,
-            mode : 'path'
+            mode : 'curve'
         },
         {
             startInd : 1,
@@ -289,14 +321,15 @@ testBuild3 = {
         {
             "startInd": 0,
             "endInd": 1,
-            "mode": "path"
+            "mode": "curve"
         },
         {
             "startInd": 1,
             "endInd": 2,
-            "mode": "path"
+            "mode": "curve"
         }
     ]
 }
 
-loadFromJSON(testBuild2)
+
+loadFromJSON(testBuild3)

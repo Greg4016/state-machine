@@ -4,6 +4,8 @@
     --ter-col: rgb(177, 219, 243);
     --acc-col: aquamarine;
     --bor-col: white;
+    
+    font-family: sans-serif;
 }
 
 body {
@@ -85,7 +87,6 @@ svg {
 
     background-color: var(--acc-col);
     font-size: large;
-    font-family: sans-serif;
     box-shadow: 0px 0px 5px -2px gray;
 
     display: flex;
@@ -127,8 +128,6 @@ svg {
     height: 2rem;
 
     z-index: 1;
-
-    font-family: sans-serif;
     
     display: flex;
     justify-content: center;
@@ -153,13 +152,13 @@ svg {
     left: 0;
 }
 
-#inspected-data #link-mode.path::before {
+#inspected-data #link-mode.curve::before {
     left: 5rem;
 }
 
 
 /*Link mode selector animation*/
-@keyframes topath {
+@keyframes tocurve {
     0% {
         left: 0;
     }
@@ -177,8 +176,8 @@ svg {
     }
 }
 
-#link-mode.anim-topath::before {
-    animation-name: topath;
+#link-mode.anim-tocurve::before {
+    animation-name: tocurve;
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
 }
